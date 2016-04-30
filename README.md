@@ -15,3 +15,4 @@ Roda o python e roda o exemplo do oct2py:
  [ 0.  0.  0.]] float64
 ...
 ```
+.
