@@ -15,4 +15,7 @@ Roda o python e roda o exemplo do oct2py:
  [ 0.  0.  0.]] float64
 ...
 ```
-.
+
+Now let's try to predict some function like 3x²/y - 17xy + 8/z + 0w - 13
+
+octave run.oct

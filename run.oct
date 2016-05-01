@@ -1,0 +1,18 @@
+M = [ones(100,1), (100 * rand(100, 4))];
+X = M(:,2);
+Y = M(:,3);
+Z = M(:,4);
+
+# F = 3x²/y - 17xy + 8/z + 0w - 13
+
+X2_Y = X .* X ./ Y;
+XY = X .* Y;
+_Z = 1 ./ Z;
+
+M2 = [M,X2_Y,XY,_Z];
+C = [-13; 0;0;0;0; 3; -17; 8];
+F = M2 * C; #correct values of F
+
+TETA = inverse(M2' * M2) * M2' * F; # normal equation
+
+TETA - C # predicted - real (holy chupacabra!)
