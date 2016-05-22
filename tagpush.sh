@@ -1,0 +1,2 @@
+docker tag octaveplay tonylampada/octaveplay
+docker push tonylampada/octaveplay
