@@ -9,19 +9,19 @@ FOLDER = os.path.dirname(os.path.realpath(__file__))
 
 
 def load_data():
-    datafile = FOLDER + '/ex1/ex1data1.txt'
+    datafile = FOLDER + '/ex1data1.txt'
     data = np.loadtxt(datafile, delimiter=',')
-    X = data[:, 0:1]
     y = data[:, 1:2]
     m = y.size
     X = np.hstack((np.ones((m, 1)), data[:, 0:1]))
     theta = np.zeros((2, 1))
     print('loaded %s training samples' % m)
-    return X, y, m, theta
+    return X, y, theta
 
 
 def compute_cost(X, y, th):
     diffs = X.dot(th) - y
+    m = y.size
     return (1.0 / (2 * m)) * sum(np.multiply(diffs, diffs))[0]
 
 
@@ -92,10 +92,11 @@ def plot_3d_cost(X, y, theta_hist, J_history):
     plot(theta_hist[:, 0], theta_hist[:, 1], [j[0] for j in J_history], 'bo-')
 
 
-X, y, m, theta = load_data()
-plot_data(X, y)
-theta_opt, J_history, theta_hist = run_gradient_descent(X, y, theta)
-plot_cost_convergence(J_history)
-plot_hipothesys_fit(X, theta_opt)
-plot_3d_cost(X, y, theta_hist, J_history)
-show()
+if __name__ == '__main__':
+    X, y, theta = load_data()
+    plot_data(X, y)
+    theta_opt, J_history, theta_hist = run_gradient_descent(X, y, theta)
+    plot_cost_convergence(J_history)
+    plot_hipothesys_fit(X, theta_opt)
+    plot_3d_cost(X, y, theta_hist, J_history)
+    show()
