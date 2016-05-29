@@ -27,8 +27,9 @@ def compute_cost(X, y, th):
 
 def gradient_descent(X, y, th, alpha, num_iters):
     m = y.size
+    n = X.shape[1]
     J_hist = np.zeros((num_iters + 1, 1))
-    th_hist = np.zeros((num_iters + 1, 2))
+    th_hist = np.zeros((num_iters + 1, n))
     J_hist[0, 0] = compute_cost(X, y, th)
     th_hist[0, :] = th.transpose()
     for i in range(num_iters):
