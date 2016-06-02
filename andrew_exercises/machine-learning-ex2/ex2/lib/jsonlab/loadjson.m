@@ -7,7 +7,7 @@ function data = loadjson(fname,varargin)
 % parse a JSON (JavaScript Object Notation) file or string
 %
 % authors:Qianqian Fang (fangq<at> nmr.mgh.harvard.edu)
-% created on 2011/09/09, including previous works from 
+% created on 2011/09/09, including previous works from
 %
 %         Nedialko Krouchev: http://www.mathworks.com/matlabcentral/fileexchange/25713
 %            created on 2009/11/02
@@ -22,19 +22,19 @@ function data = loadjson(fname,varargin)
 % input:
 %      fname: input file name, if fname contains "{}" or "[]", fname
 %             will be interpreted as a JSON string
-%      opt: a struct to store parsing options, opt can be replaced by 
+%      opt: a struct to store parsing options, opt can be replaced by
 %           a list of ('param',value) pairs - the param string is equivallent
-%           to a field in opt. opt can have the following 
+%           to a field in opt. opt can have the following
 %           fields (first in [.|.] is the default)
 %
 %           opt.SimplifyCell [0|1]: if set to 1, loadjson will call cell2mat
-%                         for each element of the JSON data, and group 
+%                         for each element of the JSON data, and group
 %                         arrays based on the cell2mat rules.
 %           opt.FastArrayParser [1|0 or integer]: if set to 1, use a
-%                         speed-optimized array parser when loading an 
-%                         array object. The fast array parser may 
+%                         speed-optimized array parser when loading an
+%                         array object. The fast array parser may
 %                         collapse block arrays into a single large
-%                         array similar to rules defined in cell2mat; 0 to 
+%                         array similar to rules defined in cell2mat; 0 to
 %                         use a legacy parser; if set to a larger-than-1
 %                         value, this option will specify the minimum
 %                         dimension to enable the fast array parser. For
@@ -56,7 +56,7 @@ function data = loadjson(fname,varargin)
 %      dat=loadjson(['examples' filesep 'example1.json'],'SimplifyCell',1)
 %
 % license:
-%     BSD, see LICENSE_BSD.txt files for details 
+%     BSD, see LICENSE_BSD.txt files for details
 %
 % -- this function is part of JSONLab toolbox (http://iso2mesh.sf.net/cgi-bin/index.cgi?jsonlab)
 %
@@ -304,7 +304,7 @@ global pos inStr isoct
       end
     end
     parse_char(']');
-    
+
     if(pbar>0)
         waitbar(pos/length(inStr),pbar,'loading ...');
     end
@@ -423,12 +423,12 @@ function num = parse_number(varargin)
 function val = parse_value(varargin)
     global pos inStr len
     true = 1; false = 0;
-    
+
     pbar=jsonopt('progressbar_',-1,varargin{:});
     if(pbar>0)
         waitbar(pos/len,pbar,'loading ...');
     end
-    
+
     switch(inStr(pos))
         case '"'
             val = parseStr(varargin{:});
@@ -494,7 +494,7 @@ global isoct
         if(~isoct)
             str=regexprep(str,'^([^A-Za-z])','x0x${sprintf(''%X'',unicode2native($1))}_','once');
         else
-            str=sprintf('x0x%X_%s',char(str(1)),str(2:end));
+            str=sprintf('x0x%X_%s',toascii(str(1)),str(2:end));
         end
     end
     if(isempty(regexp(str,'[^0-9A-Za-z_]', 'once' ))) return;  end
@@ -507,7 +507,7 @@ global isoct
         pos0=[0 pos(:)' length(str)];
         str='';
         for i=1:length(pos)
-            str=[str str0(pos0(i)+1:pos(i)-1) sprintf('_0x%X_',str0(pos(i)))];
+            str=[str str0(pos0(i)+1:pos(i)-1) sprintf('_0x%X_',toascii(str0(pos(i))))];
         end
         if(pos(end)~=length(str))
             str=[str str0(pos0(end-1)+1:pos0(end))];
@@ -523,7 +523,7 @@ while(pos<len)
         if(~(pos>1 && str(pos-1)=='\'))
             endpos=pos;
             return;
-        end        
+        end
     end
     pos=pos+1;
 end
@@ -560,7 +560,6 @@ while(pos<=len)
     end
     pos=pos+1;
 end
-if(endpos==0) 
+if(endpos==0)
     error('unmatched "]"');
 end
-
