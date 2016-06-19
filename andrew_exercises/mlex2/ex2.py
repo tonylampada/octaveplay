@@ -5,6 +5,7 @@ from mpl_toolkits.mplot3d import axes3d, Axes3D
 from matplotlib import cm
 import itertools
 import scipy.optimize as op
+import collections
 
 
 FOLDER = os.path.dirname(os.path.realpath(__file__))
@@ -34,6 +35,20 @@ def plot_data(X, y):
     title('Grades vs. Approval', fontsize=24)
 
 
+def plot_decision_boundary(X, theta):
+    t0, t1, t2 = theta
+
+    def y0(x):
+        return -(t0 + t1 * x) / t2
+
+    minx, maxx = min(X[:, 1]), max(X[:, 1])
+    xs = [minx, maxx]
+    ys = [y0(x) for x in xs]
+    figure('fig1')
+    plot(xs, ys, 'b--')
+    pass
+
+
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
 
@@ -61,6 +76,19 @@ def grad_func(X, y):
 
     return _grad
 
+
+def get_accuracy(X, y, theta):
+    m, n = X.shape
+    theta = theta.reshape(n, 1)
+    predictions = X.dot(theta) >= 0
+    reality = y == 1
+    rights = predictions == reality
+    counter = collections.Counter(rights.reshape(m))
+    count_rights = counter[True]
+    accuracy = float(count_rights) / m
+    return accuracy
+
+
 if __name__ == '__main__':
     X, y, theta = load_data()
     plot_data(X, y)
@@ -68,19 +96,15 @@ if __name__ == '__main__':
     _cost = cost_function(X, y)
     _grad = grad_func(X, y)
     J0 = _cost(init_theta)
-    print('cost at (0,0,0) is %s' % J0)
     theta_opt = op.minimize(fun=cost_function(X, y),
                             x0=init_theta,
                             method='TNC',
                             jac=grad_func(X, y)).x
+    Jmin = _cost(theta_opt)
+    accuracy = get_accuracy(X, y, theta_opt)
+    plot_decision_boundary(X, theta_opt)
+    show()x
+    print('cost at (0,0,0) is %s' % J0[0][0])
     print('optimum theta is %s' % theta_opt)
-    pass
-
-
-
-
-    # theta_opt, J_history, theta_hist = run_gradient_descent(X, y, theta)
-    # plot_cost_convergence(J_history)
-    # plot_hipothesys_fit(X, theta_opt)
-    # plot_3d_cost(X, y, theta_hist, J_history)
-    show()
+    print('cost at theta_min = %s' % Jmin[0][0])
+    print('Accuracy is %s' % accuracy)
