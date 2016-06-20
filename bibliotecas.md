@@ -23,6 +23,6 @@
 ## Algoritmo: scipy.optimize.minimize
 
 * Encontra parâmetros que minimizam uma função
-* Tem um exemplo no [ex2.py](mlex2/ex2.py)
+* Tem um exemplo no [ex2.py](andrew_exercises/mlex2/ex2.py)
 * Pode usar diferentes métodos de minimização (Nelder-Mead, Powell, Newton-CG, etc)
 * Referência: http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
