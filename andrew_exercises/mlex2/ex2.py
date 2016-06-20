@@ -103,7 +103,7 @@ if __name__ == '__main__':
     Jmin = _cost(theta_opt)
     accuracy = get_accuracy(X, y, theta_opt)
     plot_decision_boundary(X, theta_opt)
-    show()x
+    show()
     print('cost at (0,0,0) is %s' % J0[0][0])
     print('optimum theta is %s' % theta_opt)
     print('cost at theta_min = %s' % Jmin[0][0])
